@@ -1,81 +1,45 @@
 <p align="center">
-  <img src="screenshots/banner.png" alt="QuackTool" width="100%" />
+  <img src="assets/header.svg" alt="Max — Web3 developer · Python · Solidity" width="100%" />
 </p>
-
-# QuackTool — NFT sniper for reveals
-
-**[quacktool.com](https://quacktool.com)** · Ethereum + Robinhood Chain · try it free, no plan needed
-
-At an NFT reveal the first minutes decide everything: rare tokens get listed by people who haven't checked
-rarity yet, and whoever sees them first buys them. QuackTool watches the collection, scans every token the
-moment the metadata goes live, ranks them by rarity and shows which rares are listed and how cheap — or buys
-them by the user's own rules.
-
-> This repository is a showcase: what the product does and how it is built. The source code is private.
 
 <p align="center">
-  <img src="screenshots/bot.png" alt="The bot: ranks, traits, live prices" width="100%" />
+  <a href="https://x.com/lumecather"><img src="https://img.shields.io/badge/X-@lumecather-0b0b0d?style=for-the-badge&logo=x&logoColor=white" alt="X" /></a>
+  <a href="https://quacktool.com"><img src="https://img.shields.io/badge/quacktool.com-live-f2a63d?style=for-the-badge&labelColor=0b0b0d" alt="quacktool.com" /></a>
+  <img src="https://img.shields.io/badge/open_to-work-6fe08c?style=for-the-badge&labelColor=0b0b0d" alt="Open to work" />
 </p>
 
-## What it does
+---
 
-- **Scan a collection in seconds** — downloads the metadata of every token through a warmed-up pool of IPFS
-  connections (listed tokens first) and ranks the whole collection.
-- **Rarity ranks from the full metadata** — information-content scoring (OpenRarity-style, with the trait-count
-  pseudo-trait), counted the moment the collection reveals.
-- **Reveal monitoring** — watches the contract and starts the scan by itself when the metadata goes live.
-- **Live listings** — OpenSea listings and prices next to every rank, a live feed of new listings.
-- **Buying** — one-click buy, and auto-buy by rules: keyword groups, top-N, floor + %, top of the listed tokens.
-- **Protections** — spend caps per reveal, stop on a half-done reveal, no «top» buys when ranks are tied or the
-  collection is flat (nothing is really rarer than the rest), every risky setting is flagged in the UI.
-- **Offers** on unlisted tokens, gas speed presets per network.
-- **Free mode** — anyone with a wallet can try the real interface on sample collections.
-- **Plans and points** — wallet login, plans paid with points, NFT redemption for points.
-- **Ops dashboard** for admins — server load, engine state and every user's activity, live.
+### 🎯 Now building
 
-## How it is built
+<a href="https://github.com/lumecather/quacktool">
+  <img src="assets/quacktool.png" alt="QuackTool — scan · rank · snipe" width="100%" />
+</a>
 
-```mermaid
-flowchart LR
-    B[Browser<br/>bot page] -- REST + WebSocket --> W[Django site<br/>DRF · Channels · Daphne]
-    W -- commands / state --> R[(Redis)]
-    R -- commands / state --> E[Bot engine<br/>one asyncio process<br/>for every user]
-    E -- metadata --> I[IPFS gateways]
-    E -- listings · orders --> O[OpenSea API]
-    E -- blocks · logs · txs --> N[Ethereum / Robinhood<br/>RPC nodes]
-    W --- P[(PostgreSQL)]
-    C[Celery worker + beat] --- P
-    C -- redeem transfers --> N
+**[QuackTool](https://github.com/lumecather/quacktool)** — an NFT sniper bot for reveals. It watches a collection,
+scans every token the moment the metadata goes live, ranks them by rarity and buys the rare cheap ones by the
+user's rules.
+
+```text
+> one asyncio engine for every user      > Django · Channels · Redis
+> rarity ranks from the full metadata    > Ethereum + Robinhood Chain
+> reveal monitoring · auto-buy rules     > 650+ automated tests
 ```
 
-- **One engine for everybody.** A single asyncio process serves all users: one worker per collection, shared
-  by everyone who scans it — a collection is downloaded once, however many users watch it.
-- **The site never blocks on the chain.** The web app and the engine talk through Redis (commands, state,
-  logs); live events reach the page over WebSockets.
-- **Sign-In with Ethereum** (EIP-4361): login is a free signature, not a transaction. Users' private keys for
-  the bot wallet and their OpenSea keys are encrypted at rest.
-- **Deploy:** Docker Compose (web, engine, worker, beat, PostgreSQL, Redis, nginx + HTTPS) on AWS Lightsail;
-  migrations and static files on start.
+→ **[How it works](https://github.com/lumecather/quacktool)** · **[Try it free](https://quacktool.com)**
 
-## Stack
+---
 
-Python · Django 5 · Django REST Framework · Channels / Daphne · asyncio / aiohttp · web3.py · Celery ·
-PostgreSQL · Redis · Docker Compose · nginx · vanilla JS · Blender (the NFT collection art)
+### 🧰 Stack
 
-## Quality
+<p>
+  <img src="https://skillicons.dev/icons?i=py,django,solidity,js,redis,postgres,docker,nginx,aws,linux,git&theme=dark" alt="Python, Django, Solidity, JavaScript, Redis, PostgreSQL, Docker, nginx, AWS, Linux, Git" />
+</p>
 
-- **659 automated tests**, including a simulated night of 100 users (reveals, buys, midnight billing) and
-  hostile-input tests.
-- ~35,000 lines of Python.
+- **Backend:** Python, Django, DRF, Channels (WebSockets), Celery, asyncio / aiohttp
+- **Web3:** Solidity, web3.py, Ethereum & L2s, OpenSea API / Seaport, IPFS, Sign-In with Ethereum
+- **Infra:** PostgreSQL, Redis, Docker Compose, nginx, AWS Lightsail
 
-## Screenshots
+---
 
-| | |
-| --- | --- |
-| ![Scan in progress](screenshots/scan.png) | ![Token card](screenshots/token.png) |
-| ![Reveal monitoring](screenshots/monitors.png) | ![Auto-buy rules](screenshots/autobuy.png) |
-
-## Links
-
-- Website: [quacktool.com](https://quacktool.com)
-- X: [@lumecather](https://x.com/lumecather)
+<p align="center"><sub>Backend · Python · Solidity · Web3 — DMs are open on <a href="https://x.com/lumecather">X</a>.</sub></p>
